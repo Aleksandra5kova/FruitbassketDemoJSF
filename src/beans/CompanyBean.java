@@ -5,17 +5,16 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import csv.ReportGenerator;
 import model.Company;
+import report.CompanyReportGenerator;
 
 public class CompanyBean {
 
 	private List<Company> companies;
-	private Company company;
 
-	private CrudService<Company> companyService;
+	private CrudServiceLocal<Company> companyService;
 	
-	private ReportGenerator reportGenerator;
+	private CompanyReportGenerator companyReportGenerator;
 
 	public CompanyBean() throws Exception {
 		initServices();
@@ -25,11 +24,11 @@ public class CompanyBean {
 	private void initServices() throws Exception {
 		Context ctx = new InitialContext();
 		
-		Object objCompanyService = ctx.lookup("java:global/FruitbasketDemo/FruitbasketDemoEJB/crudService!beans.CrudService");
-		this.companyService = (CrudService<Company>) objCompanyService;
+		Object objCompanyService = ctx.lookup("java:global/FruitbasketDemo/FruitbasketDemoEJB/crudService!beans.CrudServiceLocal");
+		this.companyService = (CrudServiceLocal<Company>) objCompanyService;
 		
-		Object objReportGenerator = ctx.lookup("java:global/FruitbasketDemo/FruitbasketDemoEJB/reportGenerator!csv.ReportGenerator");
-		this.reportGenerator = (ReportGenerator) objReportGenerator;
+		Object objReportGenerator = ctx.lookup("java:global/FruitbasketDemo/FruitbasketDemoEJB/reportGenerator!report.CompanyReportGenerator");
+		this.companyReportGenerator = (CompanyReportGenerator) objReportGenerator;
 	}
 
 	public List<Company> getCompanies() {
